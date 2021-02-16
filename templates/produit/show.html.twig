@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+    <h1>Produit</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ produit.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ produit.description }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ produit.prix }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ produit.photo }}</td>
+            </tr>
+            <tr>
+                <th><a href="{{ path('panier_add', {'id':produit.id }) }}">Ajouter au panier</a></th>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('accueil') }}">Revenir à l'accueil</a>
+
+{% endblock %}

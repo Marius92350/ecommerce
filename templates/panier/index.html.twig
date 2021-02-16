@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre panier{% endblock %}
+
+{% block body %}
+
+
+<h1>Mon panier</h1>
+<a href="{{ path('accueil') }}">Continuer mes achats</a>
+
+<table class="table">
+        <tr>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+            <th>Montant</th>
+            <th>Supprimer</th>
+        </tr>
+        {% set globalTotal = 0 %}
+        {% for item in items %}
+            {% set total = item.quantity * item.product.prix %}
+            {% set globalTotal = globalTotal + total %}
+
+        <tr>
+            <td>{{ item.product.nom }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product.prix }}</td>
+            <td>{{ total|round }}</td>
+            <td><a href="{{ path('panier_remove', {id:item.product.id}) }}">Retirer du panier</a></td>
+        </tr>        
+        {% endfor %}
+        <tr>
+            <td colspan="4"></td>
+            <td>Montant total : {{ globalTotal }}</td>
+        </tr>
+</table>
+<form action="" method="post">
+    <input type="submit" value="Valider ma commande">
+</form>
+{% endblock %}

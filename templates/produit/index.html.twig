@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil
+{% endblock %}
+
+{% block body %}
+	<h1>Bienvenue</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				{% if is_granted('ROLE_ADMIN') %}
+					<th>Id</th>
+					<th>Stock</th>
+					<th>actions</th>
+				{% endif %}
+				<th>Nom</th>
+				<th>Description</th>
+				<th>Prix</th>
+				<th>Photo</th>
+				<th>Ajouter au panier</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for produit in produits %}
+				<tr>
+					{% if is_granted('ROLE_ADMIN') %}
+						<td>{{ produit.id }}</td>
+						<td>{{ produit.stock }}</td>
+						<td>
+							<a href="{{ path('produit_edit', {'id': produit.id}) }}">Modifier</a>
+                            {{ include('produit/_delete_form.html.twig') }}
+						</td>
+					{% endif %}
+					<td><a href="{{ path('produit_show', {'id': produit.id}) }}">{{ produit.nom }}</a></td>
+					<td>{{ produit.description }}</td>
+					<td>{{ produit.prix }}</td>
+					<td>{{ produit.photo }}</td>
+					{% if is_granted('ROLE_USER') %}
+					<td><a href="{{ path('panier_add', {'id':produit.id }) }}">Ajouter au panier</a></td>
+					{% else %}
+					<td><a href="{{ path('app_login') }}">Ajouter au panier</a></td>
+					{% endif %}
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">Aucun produit</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% if is_granted('ROLE_ADMIN') %}
+	<a href="{{ path('produit_new') }}">Ajouter un produit</a>
+{% endif %}
+{% endblock %}
